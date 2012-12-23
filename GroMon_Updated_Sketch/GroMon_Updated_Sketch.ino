@@ -41,7 +41,7 @@ void setupBlueToothConnection()
     blueToothSerial.begin(38400); //Set BluetoothBee BaudRate to default baud rate 38400
     delay(2000);
     sendBlueToothCommand("\r\n+STWMOD=0\r\n");    // 0 = slave
-    sendBlueToothCommand("\r\n+STNA=GroMonProbe1\r\n"); 
+    sendBlueToothCommand("\r\n+STNA=GroMonProbe\r\n"); 
     sendBlueToothCommand("\r\n+STAUTO=0\r\n");    // 0 = Auto-connect forbidden
     sendBlueToothCommand("\r\n+STOAUT=1\r\n");    // 1 = Permit Paired device to connect me
     sendBlueToothCommand("\r\n+STPIN=0000\r\n");
@@ -163,7 +163,7 @@ byte dht11_dat[5];
   char buffer[40];
   
 //blueToothSerial.print(printf("{temperature: %d, humidity: %s}", tempF, dht11_dat[0]));
-  sprintf(buffer, "{temperature: %d, humidity: %d}", tempC, dht11_dat[0]);
+  sprintf(buffer, "{temperature: %d, humidity: %d}\n", tempC, dht11_dat[0]);
   blueToothSerial.print(buffer);
 
 }
