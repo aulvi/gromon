@@ -4,5 +4,12 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+	var data = { 
+		title: 'GroMon Dashboard'
+		, farenheight: '79'
+		, celcius: '26'
+		, humidity: '93'
+	};
+
+	res.render('index', data);
 };

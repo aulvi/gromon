@@ -1,0 +1,23 @@
+#dashbox{
+	background-image: url('/img/sunny.png');
+	background-repeat: no-repeat;
+}
+
+#temp { 
+	padding-left: 80px;
+}
+
+#primary-uom {
+	font-size: 6em;
+	margin-left: auto;
+}
+
+#secondary-uom {
+	font-size: 2.5em;
+}
+
+#humidity {
+	font-size: 1.5em;
+	margin-left: 1em;
+}
+
