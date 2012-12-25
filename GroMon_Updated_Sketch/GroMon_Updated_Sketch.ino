@@ -32,7 +32,7 @@ void setup()
     pinMode(dht11_pin, OUTPUT);
     digitalWrite(dht11_pin, HIGH);
     setupBlueToothConnection();
-    sendBlueToothCommand("{status:ready}\n");
+    sendBlueToothCommand("{status::ready}\r\n");
 }
 
 void setupBlueToothConnection()
@@ -68,7 +68,6 @@ void loop()
 
 void readBtSerial() {
   while(blueToothSerial.available()){
-    Logln("Serial available!");
     char in = (char) blueToothSerial.read();
     
     Log("Char is: ");
@@ -78,10 +77,6 @@ void readBtSerial() {
       btSerialComplete = true;
     } else {
       btSerialInput += in;
-      Log("Now adding char :");
-      Log(in);
-      Log(": to ");
-      Logln(btSerialInput);
     }
   }
 }
@@ -101,6 +96,7 @@ void handleBtInput(String& input){
     sendBlueToothCommand("Test reply!");
   }
   else if(input == "cmd::getTemp"){
+    Logln("Fetching temp!");
     getTemp();
   }
   else if(input == "cmd::aisha"){
@@ -162,8 +158,7 @@ byte dht11_dat[5];
   int tempC = dht11_dat[2];
   char buffer[40];
   
-//blueToothSerial.print(printf("{temperature: %d, humidity: %s}", tempF, dht11_dat[0]));
-  sprintf(buffer, "{temperature: %d, humidity: %d}\n", tempC, dht11_dat[0]);
+  sprintf(buffer, "{\"temperature\": %d, \"humidity\": %d}\n", tempC, dht11_dat[0]);
   blueToothSerial.print(buffer);
 
 }
