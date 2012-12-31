@@ -18,7 +18,8 @@ var
 
 	, remoteProbe = new serialport.SerialPort(
 		// "/dev/rfcomm0"
-		"/dev/ptmx"
+		//"/dev/ptmx"
+		"/dev/pts/5"
 		, { baudrate: 38400, parser: serialport.parsers.readline("\n") }
 		)
 ;
@@ -73,3 +74,22 @@ io.sockets.on('connection', function(socket){
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+// Serial port handler
+remoteProbe.on("open", function () {
+	console.log('Serial port is open!');
+	
+	remoteProbe.on("data", function(data){
+		console.log("New start|");	
+		console.log(data.toString());
+		console.log("|end.");
+
+		io.sockets.emit('newTemp', data.toString());
+	});
+
+});
+
+
+console.log("Probe");
+console.log(util.inspect(remoteProbe));
+
