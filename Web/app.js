@@ -69,17 +69,4 @@ server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-// Serial port handler
-remoteProbe.on("open", function () {
-	console.log('Serial port is open!');
-	
-	remoteProbe.on("data", function(data){
-		console.log("BEGIN|");	
-		console.log(data.toString());
-		console.log("|END");
-
-		io.sockets.emit('newTemp', data.toString());
-	});
-
-});
 

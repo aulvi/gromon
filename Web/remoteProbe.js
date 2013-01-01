@@ -13,10 +13,62 @@ var
 ;
 
 module.exports = function () {
-	console.log("Probe listening on " + probePort);
-	if (probeOptions.baudrate) {
-		return new serialport.SerialPort(probePort, probeOptions);
-	} else {
-		return new serialport.SerialPort(probePort);
+
+	var _probe = {
+			temperature: 0
+			, humidity: 0
+			, lastUpdated: '1970/1/1'
+			, port: connectSerial()
+		}
+	;
+
+	function connectSerial() {
+		console.log("Probe listening on " + probePort);
+		if (probeOptions.baudrate) {
+			return new serialport.SerialPort(probePort, probeOptions);
+		} else {
+			return new serialport.SerialPort(probePort);
+		}
 	}
-}
+
+	// Serial port handler
+	_probe.port.on("open", function () {
+		console.log('Serial port is open!');
+		
+		var sendGetTemp = function () { 
+			console.log("Sending getTemp message.");
+			_probe.port.write("cmd::getTemp!\n");
+		}
+
+		// Ask for the temp on creation.
+		sendGetTemp();
+
+		// Let's do this regularly!
+		setInterval(sendGetTemp, 2000);
+
+		// Receive data.
+		_probe.port.on("data", function(data){
+			var _data;
+
+			try {
+				_data = JSON.parse(data);
+			} catch (err) {
+				// Swallow for now
+				return;
+			}
+
+			console.log("Temp is: " + _data.temperature);
+		});
+
+	});
+
+	return {
+		getTemp: function() {
+			return {
+				temperature: _probe.temperature 
+				, humidity: _probe.humidity
+			};
+		}
+	};
+	
+} // end module.exports
