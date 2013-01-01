@@ -20,27 +20,22 @@ var
 	, argv = require('optimist').argv
 	, mode = argv.mode || 'prod'
 	, port = argv.port || '/dev/rfcomm0'
-//	, options = argv.options || {}
 	, options = argv.options || { baudrate: 38400, parser: serialport.parsers.readline("\n") }
 ;
 
 console.log("Port: " + port);
 
-if (port === undefined) { 
-	console.log("ERROR! No port specified!");
-	process.exit(1);
-}
+var remoteProbe = (function() {
+	if (options.baudrate) {
+		return new serialport.SerialPort(port, options);
+	} else {
+		return new serialport.SerialPort(port);
+	}
+})();
 
 if (mode == 'test') {
 	console.log("Entering test mode.");
 	setInterval(testWrite, 2000);
-}
-
-var remoteProbe;
-if (options.baudrate) {
-	remoteProbe = new serialport.SerialPort(port, options);
-} else {
-	remoteProbe = new serialport.SerialPort(port);
 }
 
 function testWrite() {

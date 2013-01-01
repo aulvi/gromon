@@ -8,6 +8,7 @@ var
 	, path = require('path')
 	, util = require('util')
 	, serialport = require('serialport')
+	, argv = require('optimist').argv
 
 	, app = express()
 	, server = http.createServer(app)
@@ -16,15 +17,17 @@ var
 	, routes = require('./routes')
 	, user = require('./routes/user')
 
-	, remoteProbe = new serialport.SerialPort(
-		// "/dev/rfcomm0"
-		//"/dev/ptmx"
-		"/dev/pts/5"
-		, { baudrate: 38400, parser: serialport.parsers.readline("\n") }
-		)
+	, probeOptions = argv.probeOptions || { baudrate: 38400, parser: serialport.parsers.readline("\n") }
+	, probePort = argv.probePort || "/dev/rfcomm0"
+	, remoteProbe = (function() {
+		if (probeOptions.baudrate) {
+			return new serialport.SerialPort(probePort, probeOptions);
+		} else {
+			return new serialport.SerialPort(probePort);
+		}
+		console.log("Probe listening on " + probePort);
+	})()
 ;
-
-//var app = express();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -80,16 +83,12 @@ remoteProbe.on("open", function () {
 	console.log('Serial port is open!');
 	
 	remoteProbe.on("data", function(data){
-		console.log("New start|");	
+		console.log("BEGIN|");	
 		console.log(data.toString());
-		console.log("|end.");
+		console.log("|END");
 
 		io.sockets.emit('newTemp', data.toString());
 	});
 
 });
-
-
-console.log("Probe");
-console.log(util.inspect(remoteProbe));
 
