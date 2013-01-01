@@ -7,35 +7,46 @@
  *    socat -d -d pty,raw,echo=0 pty,raw,echo=0
  *
  * 2. Start this script using one of the devices above:
- *    node dummy-probe.js --device=/dev/pts/5
+ *    node dummy-probe.js --port=/dev/pts/5
  *
  * 3. Start the express app using the other device:
- *    node app.js --device=/dev/pts/7
+ *    node app.js --port=/dev/pts/7
  *
  */
  
 var
 	util = require('util')
 	, serialport = require('serialport')
-	, args = require('optimist').argv
+	, argv = require('optimist').argv
+	, mode = argv.mode || 'prod'
+	, port = argv.port || '/dev/rfcomm0'
+//	, options = argv.options || {}
+	, options = argv.options || { baudrate: 38400, parser: serialport.parsers.readline("\n") }
 ;
 
-function findDevice(device) {
+console.log("Port: " + port);
 
-	console.log("Device: " + device);
-
-	if (device === undefined) { 
-		console.log("ERROR! No device found!");
-		process.exit(1);
-	}
-
-	return new serialport.SerialPort(device
-		, { baudrate: 38400, 
-			parser: serialport.parsers.readline("\n") }
-		);
+if (port === undefined) { 
+	console.log("ERROR! No port specified!");
+	process.exit(1);
 }
 
-remoteProbe = findDevice(args.device);
+if (mode == 'test') {
+	console.log("Entering test mode.");
+	setInterval(testWrite, 2000);
+}
+
+var remoteProbe;
+if (options.baudrate) {
+	remoteProbe = new serialport.SerialPort(port, options);
+} else {
+	remoteProbe = new serialport.SerialPort(port);
+}
+
+function testWrite() {
+	console.log("Test message from port " + port);
+	remoteProbe.write("Test message from port " + port);
+}
 
 // Serial port handler
 remoteProbe.on("open", function () {
