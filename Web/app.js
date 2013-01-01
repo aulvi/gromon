@@ -7,7 +7,6 @@ var
 	, http = require('http')
 	, path = require('path')
 	, util = require('util')
-	, serialport = require('serialport')
 	, argv = require('optimist').argv
 
 	, app = express()
@@ -17,16 +16,8 @@ var
 	, routes = require('./routes')
 	, user = require('./routes/user')
 
-	, probeOptions = argv.probeOptions || { baudrate: 38400, parser: serialport.parsers.readline("\n") }
-	, probePort = argv.probePort || "/dev/rfcomm0"
-	, remoteProbe = (function() {
-		if (probeOptions.baudrate) {
-			return new serialport.SerialPort(probePort, probeOptions);
-		} else {
-			return new serialport.SerialPort(probePort);
-		}
-		console.log("Probe listening on " + probePort);
-	})()
+	, remoteProbe = require('./remoteProbe.js')()
+
 ;
 
 app.configure(function(){
