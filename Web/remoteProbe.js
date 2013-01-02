@@ -57,6 +57,14 @@ module.exports = function () {
 				return;
 			}
 
+			if(_data.temperature) {
+				 _probe.temperature = _data.temperature;
+			}
+
+			if(_data.humidity) {
+				_probe.humidity = _data.humidity;
+			}
+
 			console.log("Temp is: " + _data.temperature);
 		});
 
