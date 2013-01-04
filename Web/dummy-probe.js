@@ -6,11 +6,11 @@
  * 1. Create two devices, you'll see the paths in the output:
  *    socat -d -d pty,raw,echo=0 pty,raw,echo=0
  *
- * 2. Start this script using one of the devices above:
+ * 2. Start this script using the first device from the command above:
  *    node dummy-probe.js --port=/dev/pts/5
  *
  * 3. Start the express app using the other device:
- *    node app.js --port=/dev/pts/7 --portOptions {}
+ *    node app.js --probePort=/dev/pts/7 --probeOptions {}
  *
  */
  
