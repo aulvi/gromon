@@ -6,11 +6,11 @@
  * 1. Create two devices, you'll see the paths in the output:
  *    socat -d -d pty,raw,echo=0 pty,raw,echo=0
  *
- * 2. Start this script using one of the devices above:
+ * 2. Start this script using the first device from the command above:
  *    node dummy-probe.js --port=/dev/pts/5
  *
  * 3. Start the express app using the other device:
- *    node app.js --port=/dev/pts/7
+ *    node app.js --probePort=/dev/pts/7 --probeOptions {}
  *
  */
  
@@ -20,7 +20,11 @@ var
 	, argv = require('optimist').argv
 	, mode = argv.mode || 'prod'
 	, port = argv.port || '/dev/rfcomm0'
-	, options = argv.options || { baudrate: 38400, parser: serialport.parsers.readline("\n") }
+	, options = argv.options || {}
+	, _probe = {
+		temperature: 76.4
+		, humidity: 30
+	}
 ;
 
 console.log("Port: " + port);
@@ -47,20 +51,21 @@ function testWrite() {
 remoteProbe.on("open", function () {
 
 	console.log('Serial port is open!');
-	
+
 	remoteProbe.on("data", function(data){
 
 		console.log("Data|" + data.toString() +"|");	
 
-		if (data.toString() === "cmd::getTemp!") {
-			console.log("Getting temp!");
-			//	getTemp();
+		if (data.toString() === 'cmd::getTemp!\n') {
+			console.log("Received 'getTemp!' message.");
+			sendTempData();
 		}
 	});
 
 });
 
-function getTemp() {
+function sendTempData() {
+	console.log("Sending TempData message.");
 	remoteProbe.write("{\"temperature\":74.6,\"humidity\":45}");
 }
 
