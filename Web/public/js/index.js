@@ -3,11 +3,18 @@
  */
 
 ;(function() {
+	console.log("Hello!");
+
 	var socket = io.connect('http://localhost');
 
-	socket.on('news', function (data) {
+	socket.on('getTemp', function (data) {
+		console.log('Received getTemp socket event!');
 		console.log(data);
-		socket.emit('my other event', { my: 'data' });
+	});
+
+	$("#updateNow").live('click', function() {
+		console.log("Sending getTemp");
+		socket.emit('getTemp');
 	});
 
 })()

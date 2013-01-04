@@ -12,7 +12,7 @@ var
 	, probePort = argv.probePort || "/dev/rfcomm0"
 ;
 
-module.exports = function () {
+module.exports = (function () {
 
 	var _probe = {
 			temperature: 0
@@ -39,9 +39,6 @@ module.exports = function () {
 			console.log("Sending getTemp message.");
 			_probe.port.write("cmd::getTemp!\n");
 		}
-
-		// Ask for the temp on creation.
-		//sendGetTemp();
 
 		// Let's do this regularly!
 		setInterval(sendGetTemp, 5000);
@@ -79,4 +76,4 @@ module.exports = function () {
 		}
 	};
 	
-} // end module.exports
+})(); // end module.exports

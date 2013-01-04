@@ -16,7 +16,7 @@ var
 	, routes = require('./routes')
 	, user = require('./routes/user')
 
-	, remoteProbe = require('./remoteProbe.js')()
+	, remoteProbe = require('./remoteProbe.js')
 
 ;
 
@@ -52,10 +52,8 @@ io.sockets.on('connection', function(socket){
  	socket.on('getTemp', function(){
  		console.log("Socket request to getTemp.");
 
-		// Inspect the state of the probe.
-
 		// Send reply to client.
-		io.sockets.emit('getTemp', lightSwitch);
+		io.sockets.emit('getTemp',  remoteProbe.getTemp());
 	});
 
 }); // end io.sockets.on()
