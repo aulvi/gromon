@@ -46,20 +46,16 @@ app.get('/users', user.list);
 io.sockets.on('connection', function(socket){
 
 	socket.on('connect', function() {
-		console.log("New connection.");
-		return lightSwitch;
-	});
-
-	socket.on('getSwitch', function(){
-		console.log("getSwitch:  " + util.inspect(lightSwitch));
-		return lightSwitch;
+		console.log("New socket connection.");
 	});
 
  	socket.on('getTemp', function(){
-		lightSwitch.state = !lightSwitch.state;
-		io.sockets.emit('getSwitch', lightSwitch);
- 		console.log("State is: " + lightSwitch.state);
-		serialPort.write("cmd::getTemp!\n");
+ 		console.log("Socket request to getTemp.");
+
+		// Inspect the state of the probe.
+
+		// Send reply to client.
+		io.sockets.emit('getTemp', lightSwitch);
 	});
 
 }); // end io.sockets.on()

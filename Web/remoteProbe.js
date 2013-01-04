@@ -41,10 +41,10 @@ module.exports = function () {
 		}
 
 		// Ask for the temp on creation.
-		sendGetTemp();
+		//sendGetTemp();
 
 		// Let's do this regularly!
-		setInterval(sendGetTemp, 2000);
+		setInterval(sendGetTemp, 5000);
 
 		// Receive data.
 		_probe.port.on("data", function(data){
@@ -65,7 +65,7 @@ module.exports = function () {
 				_probe.humidity = _data.humidity;
 			}
 
-			console.log("Temp is: " + _data.temperature);
+			console.log("Probe temp is " + _probe.temperature + " celcius and humidity is " + _probe.humidity);
 		});
 
 	});
