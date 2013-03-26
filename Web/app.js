@@ -2,23 +2,17 @@
  * app.js
  */
 
-var 
-	express = require('express')
-	, http = require('http')
-	, path = require('path')
-	, util = require('util')
-	, argv = require('optimist').argv
-
-	, app = express()
-	, server = http.createServer(app)
-	, io = require('socket.io').listen(server)
-
-	, routes = require('./routes')
-	, user = require('./routes/user')
-
-	, remoteProbe = require('./remoteProbe.js')
-
-;
+var express = require('express'),
+	http = require('http'),
+	path = require('path'),
+	util = require('util'),
+	argv = require('optimist').argv,
+	app = express(),
+	server = http.createServer(app),
+	io = require('socket.io').listen(server),
+	routes = require('./routes'),
+	user = require('./routes/user'),
+	remoteProbe = require('./remoteProbe.js');
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -49,8 +43,8 @@ io.sockets.on('connection', function(socket){
 		console.log("New socket connection.");
 	});
 
- 	socket.on('getTemp', function(){
- 		console.log("Socket request to getTemp.");
+	socket.on('getTemp', function(){
+		console.log("Socket request to getTemp.");
 
 		// Send reply to client.
 		io.sockets.emit('getTemp',  remoteProbe.getTemp());

@@ -3,24 +3,22 @@
  * State manager for the remote bluetooth module. Creates a child process to
  * interact with the serial connection.
  */
-var
-	argv = require('optimist').argv
-	, util = require('util')
-	, serialport = require('serialport')
-	, probeOptions = argv.probeOptions || { 
-		baudrate: 38400, parser: serialport.parsers.readline("\n") }
-	, probePort = argv.probePort || "/dev/rfcomm0"
-;
+var argv = require('optimist').argv,
+	util = require('util'),
+	serialport = require('serialport'),
+	probeOptions = argv.probeOptions || { 
+		baudrate: 38400, parser: serialport.parsers.readline("\n")
+	},
+	probePort = argv.probePort || "/dev/rfcomm0";
 
 module.exports = (function () {
 
 	var _probe = {
-			temperature: 0
-			, humidity: 0
-			, lastUpdated: '1970/1/1'
-			, port: connectSerial()
-		}
-	;
+		temperature: 0,
+		humidity: 0,
+		lastUpdated: '1970/1/1',
+		port: connectSerial()
+	};
 
 	function connectSerial() {
 		console.log("Probe connecting on " + probePort);
@@ -38,7 +36,7 @@ module.exports = (function () {
 		var sendGetTemp = function () { 
 			console.log("Probe - sending getTemp message.");
 			_probe.port.write("cmd::getTemp!\n");
-		}
+		};
 
 		// Let's do this regularly!
 		setInterval(sendGetTemp, 5000);
@@ -58,8 +56,8 @@ module.exports = (function () {
 				return;
 			}
 
-			if(_data.temperature) {
-				 _probe.temperature = _data.temperature;
+			if (_data.temperature) {
+				_probe.temperature = _data.temperature;
 			}
 
 			if(_data.humidity) {
@@ -74,8 +72,8 @@ module.exports = (function () {
 	return {
 		getTemp: function() {
 			return {
-				temperature: _probe.temperature 
-				, humidity: _probe.humidity
+				temperature: _probe.temperature,
+				humidity: _probe.humidity
 			};
 		}
 	};
