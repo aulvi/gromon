@@ -23,7 +23,7 @@ module.exports = (function () {
 	;
 
 	function connectSerial() {
-		console.log("Probe listening on " + probePort);
+		console.log("Probe connecting on " + probePort);
 		if (probeOptions.baudrate) {
 			return new serialport.SerialPort(probePort, probeOptions);
 		} else {
@@ -33,10 +33,10 @@ module.exports = (function () {
 
 	// Serial port handler
 	_probe.port.on("open", function () {
-		console.log('Serial port is open!');
+		console.log('Probe serial port is open!');
 		
 		var sendGetTemp = function () { 
-			console.log("Sending getTemp message.");
+			console.log("Probe - sending getTemp message.");
 			_probe.port.write("cmd::getTemp!\n");
 		}
 
@@ -45,12 +45,16 @@ module.exports = (function () {
 
 		// Receive data.
 		_probe.port.on("data", function(data){
+
+			console.log("Probe - received data: " + data);
+
 			var _data;
 
 			try {
 				_data = JSON.parse(data);
 			} catch (err) {
 				// Swallow for now
+				console.log("Json parse error: " + err);
 				return;
 			}
 

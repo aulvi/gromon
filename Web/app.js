@@ -54,6 +54,7 @@ io.sockets.on('connection', function(socket){
 
 		// Send reply to client.
 		io.sockets.emit('getTemp',  remoteProbe.getTemp());
+		//io.sockets.emit('getTemp',  '98.6');
 	});
 
 }); // end io.sockets.on()
