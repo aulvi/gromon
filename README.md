@@ -33,6 +33,26 @@ But if not, you really should buy it.
 ## Optional fancy stuff
 * [USB to TTL serial cable](http://www.adafruit.com/products/954) for the Raspberry Pi
 
+# How to Use the Simulator
+===
+Directions for running the full solution coming soon. Until then, here's how you can simulate the remote sensor and get a feel for how things work.
+
+## Linux (OSX?)
+1. Clone the GroMon repo, npm install, etc
+2. Fire up socat and create a couple of serial ptys
+
+    socat -d -d pty,raw,echo=0 pty,raw,echo=0
+
+This command will return two devices in the output (ie, "N PTY is /dev/pts/5"). 
+
+3. Start the dummy probe using the first device from the command above:
+
+    node dummy-probe.js --port=/dev/pts/5
+
+4. Start the web app using the other device:
+ 
+    node app.js --probePort=/dev/pts/6
+
 
 ## License
 
