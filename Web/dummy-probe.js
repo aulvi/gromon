@@ -27,7 +27,8 @@ var
 	_probe = {
 		temperature: 76.4,
 		humidity: 30
-	};
+	},
+	ezlog = function(data) { console.log("[DummyProbe]	" + data); };
 
 var remoteProbe = (function() {
 	if (options.baudrate) {
@@ -38,23 +39,23 @@ var remoteProbe = (function() {
 })();
 
 if (mode == 'test') {
-	console.log("Entering test mode.");
+	ezlog("Entering test mode.");
 	setInterval(testWrite, 2000);
 }
 
 function testWrite() {
-	console.log("Test message from port " + port);
+	ezlog("Test message from port " + port);
 	remoteProbe.write("Test message from port " + port);
 }
 
 // Serial port handler
 remoteProbe.on("open", function () {
 
-	console.log("Dummy probe: serial port " + port + " is open.");
+	ezlog("Serial port " + port + " is open.");
 
 	remoteProbe.on("data", function(data){
 
-		console.log("Received message: " + data.toString());
+		ezlog("Received message: " + data.toString());
 
 		if (data.toString() === 'cmd::getTemp!') {
 			sendTempData();
@@ -76,7 +77,7 @@ function sendTempData() {
 	tempObj.humidity = getRandom(45,69);
 	message = JSON.stringify(tempObj);
 
-	console.log("Sending message: " + message);
+	ezlog("Sending message: " + message);
 
 	remoteProbe.write(message+"\n");
 }

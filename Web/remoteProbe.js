@@ -9,7 +9,8 @@ var argv = require('optimist').argv,
 	probeOptions = argv.probeOptions || { 
 		baudrate: 38400, parser: serialport.parsers.readline("\n")
 	},
-	probePort = argv.probePort || "/dev/rfcomm0";
+	probePort = argv.probePort || "/dev/rfcomm0",
+	ezlog = function(data) { console.log("[RemoteProbe]	" + data); };
 
 module.exports = (function () {
 
@@ -21,7 +22,7 @@ module.exports = (function () {
 	};
 
 	function connectSerial() {
-		console.log("Probe connecting on " + probePort);
+		ezlog("Connecting on " + probePort);
 		if (probeOptions.baudrate) {
 			return new serialport.SerialPort(probePort, probeOptions);
 		} else {
@@ -31,10 +32,10 @@ module.exports = (function () {
 
 	// Serial port handler
 	_probe.port.on("open", function () {
-		console.log('Probe serial port is open!');
+		ezlog('Serial port is open!');
 		
 		var sendGetTemp = function () { 
-			console.log("Probe - sending getTemp message.");
+			ezlog("Sending getTemp message.");
 			_probe.port.write("cmd::getTemp!\n");
 		};
 
@@ -44,7 +45,7 @@ module.exports = (function () {
 		// Receive data.
 		_probe.port.on("data", function(data){
 
-			console.log("Probe - received data: " + data);
+			ezlog("Received data: " + data);
 
 			var _data;
 
@@ -52,7 +53,7 @@ module.exports = (function () {
 				_data = JSON.parse(data);
 			} catch (err) {
 				// Swallow for now
-				console.log("Json parse error: " + err);
+				ezlog("JSON.parse error: " + err);
 				return;
 			}
 
@@ -64,7 +65,7 @@ module.exports = (function () {
 				_probe.humidity = _data.humidity;
 			}
 
-			console.log("Probe temp is " + _probe.temperature + " celcius and humidity is " + _probe.humidity);
+			ezlog("Temp is " + _probe.temperature + " celcius and humidity is " + _probe.humidity);
 		});
 
 	});
