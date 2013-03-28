@@ -38,20 +38,29 @@ But if not, you really should buy it.
 Directions for running the full solution coming soon. Until then, here's how you can simulate the remote sensor and get a feel for how things work.
 
 ## Linux (OSX?)
-1. Clone the GroMon repo, npm install, etc
-2. Fire up socat and create a couple of serial ptys
+1. Open a terminal, then clone the GroMon repo.
+
+    git clone git@github.com:aulvi/gromon.git
+
+2. Navigate into the Web directory, then install modules.
+
+    cd gromon/Web; npm install
+
+2. Fire up socat and create a couple of serial ptys. This will take over your terminal.
 
     socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
 This command will return two devices in the output (ie, "N PTY is /dev/pts/5"). 
 
-3. Start the dummy probe using the first device from the command above:
+3. Open another terminal and start the dummy probe using the first device from the command above:
 
     node dummy-probe.js --port=/dev/pts/5
 
 4. Start the web app using the other device:
  
     node app.js --probePort=/dev/pts/6
+
+5. Within a few seconds you should see messages moving back and forth.
 
 
 ## License
