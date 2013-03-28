@@ -23,11 +23,11 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+	<script src="/socket.io/socket.io.js"></script>	
+	<script src="/js/jquery-1.8.3.min.js"></script>
+	<script src="/js/index.js"></script>
+
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
 	<link rel="shortcut icon" href="/ico/favicon.png">
   </head>
 
@@ -43,6 +43,7 @@
           </a>
           <a class="brand" href="#">GroMon</a>
           <div class="nav-collapse collapse">
+			<!--
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
@@ -65,6 +66,7 @@
               <input class="span2" type="password" placeholder="Password">
               <button type="submit" class="btn">Sign in</button>
             </form>
+			-->
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -77,11 +79,14 @@
 		<div id="temp">
 		<span id="primary-uom"><%= farenheight %>&#8457</span>
 		<br><br>
-		<span id="humidity"><%= humidity %>% humid</span>
+		<span id="humidity"><%= humidity %>% humidity</span>
+		<br>
+		  <button name="updateNow" id="updateNow" class="btn">update now</button>
 		</div>
       </div>
 
       <!-- Example row of columns -->
+	  <!--
       <div class="row">
         <div class="span4">
           <h2>Heading</h2>
@@ -99,6 +104,7 @@
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
       </div>
+	  -->
 
       <hr>
 
