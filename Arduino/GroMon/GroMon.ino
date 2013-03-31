@@ -1,17 +1,15 @@
 /*
- * Sketch: GroMon.pde
- *   Desc: Simple app to verify bluetooth connectivity.
-
-
-/*
-- modified by DK : july 2012
-- IDE v1.0.1 (using Nano-168)
-
- note: to use v1.0
- - #include <NewSoftSerial.h> -> #include <SoftwareSerial.h>fa
- - NewSoftSerial blueToothSerial(RxD,TxD); -> SoftwareSerial blueToothSerial(RxD,TxD);
+ * Sketch: GroMon.ino
+ *   Desc: 
+ *
+ * Required Arduino libraries:
+ *   SoftwareSerial - http://arduino.cc/en/Reference/SoftwareSerial
+ *
+ * Attributions:
+ * Original code borrowed from Dejwoot
+ *    http://dejwoot.blogspot.com/2012/07/howto-test-your-bluetooth-bee-standalone.html
  */
-
+ 
 #include <stdin.h>
 #include <SoftwareSerial.h>   //Software Serial Port
 #define RxD 2  // these '2' & '3' are fixed by the hardware
@@ -99,9 +97,6 @@ void handleBtInput(String& input){
     Logln("Fetching temp!");
     getTemp();
   }
-  else if(input == "cmd::aisha"){
-    sendBlueToothCommand("Hi Aisha!");
-  }
   
   input = "";
 }
@@ -163,8 +158,7 @@ byte dht11_dat[5];
 
 }
 
-byte read_dht11_dat()
-{
+byte read_dht11_dat() {
   byte i = 0;
   byte result=0;
   for(i=0; i< 8; i++)
@@ -181,9 +175,11 @@ byte read_dht11_dat()
 //
 // Logging functions
 //
+
+// Log without a line break (ie, add your own).
 void Log(String& input) {
   if (Serial) {
-    Serial.println(input);
+    Serial.print(input);
   }
 }
 
@@ -199,6 +195,7 @@ void Log(char input) {
   }
 }
 
+// Log using a "println".
 void Logln(String& input) {
   if (Serial) {
     Serial.println(input);
