@@ -2,7 +2,9 @@
  * remoteProbe.js
  * State manager for the remote bluetooth module. Creates a child process to
  * interact with the serial connection.
+ *
  */
+
 var argv = require('optimist').argv,
 	util = require('util'),
 	serialport = require('serialport'),
@@ -14,13 +16,6 @@ var argv = require('optimist').argv,
 
 module.exports = (function () {
 
-	var _probe = {
-		temperature: 0,
-		humidity: 0,
-		lastUpdated: '1970/1/1',
-		port: connectSerial()
-	};
-
 	function connectSerial() {
 		ezlog("Connecting on " + probePort);
 		if (probeOptions.baudrate) {
@@ -31,6 +26,13 @@ module.exports = (function () {
 	}
 
 	// Serial port handler
+	var _probe = {
+		temperature: 0,
+		humidity: 0,
+		lastUpdated: '1970/1/1',
+		port: connectSerial()
+	};
+
 	_probe.port.on("open", function () {
 		ezlog('Serial port is open!');
 		
@@ -61,7 +63,7 @@ module.exports = (function () {
 				_probe.temperature = _data.temperature;
 			}
 
-			if(_data.humidity) {
+			if (_data.humidity) {
 				_probe.humidity = _data.humidity;
 			}
 
