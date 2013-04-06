@@ -26,7 +26,7 @@
 	
 	// Little function we can call to "paint" the display.
 	var updateDisplay = function() {
-		$("#primary-uom").html(probeData.tempF + "&#8457");
+		$("#primary-uom").html(probeData.tempF + "&#8457").fadeOut('fast').fadeIn('slow');
 		$("#humidity").html(probeData.humidity + "% humidity");
 	}
 
