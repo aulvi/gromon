@@ -6,6 +6,7 @@ Basic wireless monitoring platform for experimentation and rapid prototyping.
 * Arduino
 * Node.js
 * Bluetooth
+* Awesome!
 
 #Bill of Materials
 This is "must have" list for building the GroMon system. Each "half" of the solution is broken out separately. You can absolutely build either half independently, allowing you to split the purchase in two but still keep hacking.
@@ -73,6 +74,30 @@ activity. It's okay.
 9. When ready, click the "Upload" button. If we're lucky everything will "just work"!
 
 10. After uploading, power-cycle the XBee carrier. Your wireless probe is now programmed.
+
+#Connecting the Raspberry Pi to the Bluetooth Bee
+
+1. Power up the Bluetooth Bee and then log into the Raspberry Pi. The remainder of these steps will be performed on the Pi.
+
+2. Check to see if bluetooth is running (service bluetooth status), if not, start it up (sudo service bluetooth start)
+
+3. Search for the Bluetooth Bee (hcitool scan), it's either named "GroMon" or you changed it (which I hope you did). Take note of the hardware ID.
+
+4. Check to see if bluetooth is running (service bluetooth status)
+
+5. Run "sudo bluetooth-agent 0000 &". If you changed the PIN in the Arduino sketch, then use that in place of the zeros.
+
+6. Run "sudo rfcomm release 0". If it says "Can't release device: No such device", that's totally okay.
+
+7. Run "sudo rfcomm bind 0 <hardware id> 1", this creates a serial port at /dev/rfcomm0, now we can eat it with Node.js!
+
+8. Start the web app (cd ~/gromon/Web; node app.js). Within a few moments you should see messages flowing back and forth.
+
+#Misc notes and whatnot
+
+1. Sometimes, when you rename the Bluetooth Bee, the old name persists when you run "hcitool scan" or "bluez-test-discovery". You can edit /var/lib/bluetooth/<HW-ID>/names to correct this problem.
+
+2. The normal boot cycle of the bluetooth bee is: booting = blinking blue led.. waiting to pair = alternating blue and red leds... paired = blinking blue led
 
 # How to Use the Simulator
 Directions for running the full solution coming soon. Until then, here's how you can simulate the remote sensor and get a feel for how things work.
