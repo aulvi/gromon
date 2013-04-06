@@ -39,20 +39,29 @@ app.get('/', routes.index);
 // Slap in some socket.io
 io.sockets.on('connection', function(socket){
 
-	socket.on('connect', function() {
+	socket.on('connect', function(data) {
 		ezlog("New socket connection.");
+		
+		// Send temperature to client.
+		socket.emit('getTemp',  remoteProbe.getTemp());
 	});
 
-	socket.on('getTemp', function(){
+	socket.on('getTemp', function(data){
 		ezlog("Socket request to getTemp.");
 
 		// Send reply to client.
-		io.socket.emit('getTemp',  remoteProbe.getTemp());
+		socket.emit('getTemp',  remoteProbe.getTemp());
 	});
 
 }); // end io.sockets.on()
 
-// Start it up!
+// Set a timer and update all the connected clients via socket.io
+var updateAll = function() {
+	io.sockets.emit('getTemp', remoteProbe.getTemp());
+};
+setInterval(updateAll, 5000);
+
+// Start up the web server
 server.listen(app.get('port'), function(){
   ezlog("Server listening on port " + app.get('port'));
 });

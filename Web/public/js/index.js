@@ -3,9 +3,8 @@
  */
 
 ;(function() {
-	console.log("Hello!");
-
-	var socket = io.connect('http://localhost');
+	var socket = io.connect(),
+		probeData = { tempF: 0, tempC: 0, humidity: 0 };
 
 	socket.on('connect', function() {
 		console.log("Connecting");
@@ -15,10 +14,23 @@
 	socket.on('getTemp', function (data) {
 		console.log('Received getTemp socket event!');
 		console.log(data);
-		$("#primary-uom").html((9/5 * data.temperature + 32).toPrecision(2) + "&#8457");
-		$("#humidity").html(data.humidity + "% humidity");
-	});
 
+		// Save the data.
+		probeData.tempC = data.temperature;
+		probeData.tempF = (9/5 * data.temperature + 32).toPrecision(2);
+		probeData.humidity = data.humidity;
+
+		// Update the display.
+		updateDisplay();
+	});
+	
+	// Little function we can call to "paint" the display.
+	var updateDisplay = function() {
+		$("#primary-uom").html(probeData.tempF + "&#8457");
+		$("#humidity").html(probeData.humidity + "% humidity");
+	}
+
+	// Button
 	$("#updateNow").live('click', function() {
 		console.log("Sending getTemp");
 		socket.emit('getTemp');
