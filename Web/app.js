@@ -12,6 +12,7 @@ var express = require('express'),
 	io = require('socket.io').listen(server),
 	routes = require('./routes'),
 	remoteProbe = require('./remoteProbe.js'),
+	alert = require('./alert')(),
 	ezlog = function (data) { console.log("[GroMon]	" + data); };
 
 app.configure(function(){
