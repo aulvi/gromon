@@ -58,7 +58,9 @@ io.sockets.on('connection', function(socket){
 
 // Set a timer and update all the connected clients via socket.io
 var updateAll = function() {
-	io.sockets.emit('getTemp', remoteProbe.getTemp());
+	var temp = remoteProbe.getTemp();
+	io.sockets.emit('getTemp', temp);
+	alert.process(temp);
 };
 setInterval(updateAll, 5000);
 
