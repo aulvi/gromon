@@ -51,6 +51,9 @@ var alert = function() {
 	}
 
 	function process(data) {
+		if (config.uom = "F") {
+			data.temperature = data.temperature * 9/5 + 32;
+		}
 		if (data.temperature > config.maxTemp || data.temperature < config.minTemp) {
 			console.log("Temp exceeded: " + data.temperature);
 
