@@ -25,8 +25,9 @@ var
 		parser: serialport.parsers.readline("\n") 
 	} ,
 	_probe = {
-		temperature: 76.4,
-		humidity: 30
+		tempMin: 5,
+		tempMax: 24,
+		humidity: 16 
 	},
 	ezlog = function(data) { console.log("[DummyProbe]	" + data); };
 
@@ -73,8 +74,8 @@ function sendTempData() {
 	var tempObj = {},
 		message = null;
 
-	tempObj.temperature = getRandom(72,85);
-	tempObj.humidity = getRandom(45,69);
+	tempObj.temperature = getRandom(_probe.tempMin,_probe.tempMax);
+	tempObj.humidity = getRandom(5,69);
 	message = JSON.stringify(tempObj);
 
 	ezlog("Sending message: " + message);

@@ -6,6 +6,6 @@
 #
 # You will see the paths in the output
 
-nodemon dummy-probe.js --port=/dev/pts/4
-nodemon app.js --probePort=/dev/pts/5
+nodemon dummy-probe.js --port=/dev/pts/6
+nodemon app.js --probePort=/dev/pts/7
 
