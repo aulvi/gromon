@@ -62,7 +62,7 @@ var updateAll = function() {
 	io.sockets.emit('getTemp', temp);
 	alert.process(temp);
 };
-setInterval(updateAll, 5000);
+setInterval(updateAll, 30*1000);
 
 // Start up the web server
 server.listen(app.get('port'), function(){
