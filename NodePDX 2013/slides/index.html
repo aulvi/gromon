@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Put a Sensor On It!</title>
+
+		<meta name="description" content="Building Your Own Wireless Sensor Network">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>Put a Sensor On It!</h1>
+					<h3>Building Your Own Wireless Sensor Network</h3>
+					<p>
+						<small>Adam Ulvi</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>What is a Wireless Sensor Network?</h2>
+					<p>Wikipedia says:</p>
+					<p> “A wireless sensor network (WSN) consists of spatially distributed autonomous sensors 
+						to monitor physical or environmental conditions, such as temperature, sound, pressure, etc. 
+						and to cooperatively pass their data through the network to a main location.”</p>
+					</p>
+				</section>
+
+				<section>
+					<h2>Yeah I built one of those</h2>
+					<p><img src="images/gromon.jpg" /></p>
+					<h3>Bionic tomato</h3>
+				</section>
+
+				<section>
+					<h2>Endless Possibilities!</h2>
+					<p><ul>
+						<li>Motion sensor = home security!</li>
+						<li>dB meter = dog alert!</li>
+						<li>Moisture sensor = flood warning!</li>
+						<li>Air quality sensor = know who dealt it!</li>
+					</p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<p><img src="images/platform.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<h3>Raspberry Pi</h3>
+					<p><img src="images/rasppi.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<h3>Arduino UNO R3</h3>
+					<p><img src="images/arduino-r3.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<h3>Bluetooth Bee (also.. an Arduino)</h3>
+					<p><img src="images/btbee.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<h3>Temperature Sensor</h3>
+					<p><img src="images/temp.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<p><img src="images/alltogether.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Software</h2>
+					<p><img src="images/messages3.png" /></p></p>
+				</section>
+
+				<section>
+					<h2>Software</h2>
+					<p>an arduino eating serial</p>
+					<pre><code data-trim contenteditable>
+String input= "";
+
+void loop() {
+	readBtSerial(); // Read bluetooth data into 'input'.
+	commandLoop(); // Take action on the command strings.
+}
+
+void readBtSerial() {
+    while (blueToothSerial.available()) {
+        char in = (char) blueToothSerial.read();
+        if (in == '\n') {
+            ready = true;
+        } else {
+            input += in;
+        }
+    }
+}
+
+void commandLoop() {
+	if (blueReady == true) { // Do stuff with the blueInput string };
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Software</h2>
+					<p>node.js eating serial</p>
+					<pre><code data-trim contenteditable>
+var 
+	serialport = require('serialport')
+	, serial = new serialport.SerialPort(
+		"/dev/rfcomm0"
+		, { baudrate: 38400,
+		      parser: serialport.parsers.readline("\n") }
+	)
+;
+
+serial.on('open'), function() {
+	console.log("Port open");
+	
+	serial.on('data', function(data) {
+		console.log(data);
+	}
+});
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h2>Tools and Utilities</h2>
+					<p>Demo!</p>
+				</section>
+
+				<section>
+					<h2>Lessons Learned</h2>
+					<ul>
+						<li>This is really pretty easy.</li>
+						<li>Node.js is really pretty awesome.</li>
+						<li>Debugging on the Arduino is hard.</li>
+						<li>There's so much happening right now!</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Get the code!</h2>
+					<ul>
+						<li>http://github.com/aulvi/gromon</li>
+						<li>@s5fs</li>
+					</ul>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
