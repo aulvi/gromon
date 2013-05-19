@@ -46,16 +46,7 @@
 				</section>
 
 				<section>
-					<h2>What is a Wireless Sensor Network?</h2>
-					<p>Wikipedia says:</p>
-					<p> “A wireless sensor network (WSN) consists of spatially distributed autonomous sensors 
-						to monitor physical or environmental conditions, such as temperature, sound, pressure, etc. 
-						and to cooperatively pass their data through the network to a main location.”</p>
-					</p>
-				</section>
-
-				<section>
-					<h2>Yeah I built one of those</h2>
+					<h2>Gromon - Are your plants dead yet?</h2>
 					<p><img src="images/gromon.jpg" /></p>
 					<h3>Bionic tomato</h3>
 				</section>
@@ -73,6 +64,11 @@
 				<section>
 					<h2>Platform Selection</h2>
 					<p><img src="images/platform.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Platform Selection</h2>
+					<p><img src="images/alltogether.jpg" /></p>
 				</section>
 
 				<section>
@@ -111,34 +107,6 @@
 
 				<section>
 					<h2>Software</h2>
-					<p>an arduino eating serial</p>
-					<pre><code data-trim contenteditable>
-String input= "";
-
-void loop() {
-	readBtSerial(); // Read bluetooth data into 'input'.
-	commandLoop(); // Take action on the command strings.
-}
-
-void readBtSerial() {
-    while (blueToothSerial.available()) {
-        char in = (char) blueToothSerial.read();
-        if (in == '\n') {
-            ready = true;
-        } else {
-            input += in;
-        }
-    }
-}
-
-void commandLoop() {
-	if (blueReady == true) { // Do stuff with the blueInput string };
-}
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Software</h2>
 					<p>node.js eating serial</p>
 					<pre><code data-trim contenteditable>
 var 
@@ -160,20 +128,41 @@ serial.on('open'), function() {
 					</code></pre>
 				</section>
 
-
 				<section>
-					<h2>Tools and Utilities</h2>
-					<p>Demo!</p>
+					<h2>Software</h2>
+					<p>an arduino eating serial</p>
+					<pre><code data-trim contenteditable>
+void loop() {
+	readBtSerial(); // Read bluetooth data into 'input'.
+	commandLoop(); // Take action on the command strings.
+}
+
+void readBtSerial() {
+    while (blueToothSerial.available()) {
+        char in = (char) blueToothSerial.read();
+        if (in == '\n') {
+            ready = true;
+        } else {
+            input += in;
+        }
+    }
+}
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>Lessons Learned</h2>
 					<ul>
-						<li>This is really pretty easy.</li>
-						<li>Node.js is really pretty awesome.</li>
-						<li>Debugging on the Arduino is hard.</li>
+						<li>Debugging on the Arduino is difficult</li>
+						<li>Probably should've used Firmata or Johnny-5</li>
 						<li>There's so much happening right now!</li>
+						<li>Makes you look hardcore</li>
 					</ul>
+				</section>
+
+				<section>
+					<h2>Tools and Utilities</h2>
+					<p>Demo!</p>
 				</section>
 
 				<section>
