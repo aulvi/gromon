@@ -1,0 +1,7 @@
+{
+	"twilio_acct_sid": "blah-blah",
+	"twilio_auth_token": "blah-blah",
+	"phone_from": "+19761234",
+	"phone_to": "+18001234",
+	"threshold": 5
+}

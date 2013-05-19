@@ -70,6 +70,11 @@ module.exports = (function () {
 			ezlog("Temp is " + _probe.temperature + " celcius and humidity is " + _probe.humidity);
 		});
 
+		// Monitor the temperature.
+		_probe.port.on("data", function(data){
+			// Add threshold logic here
+		});
+
 	});
 
 	return {
